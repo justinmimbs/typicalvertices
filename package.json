@@ -1,12 +1,12 @@
 {
   "name": "typicalvertices",
   "version": "1.0.0",
-  "description": "Compute and display the 21 typical vertices",
+  "description": "Compute and display the twenty-one typical vertices",
   "main": "app/index.js",
   "scripts": {
     "lint": "eslint app",
-    "dev": "webpack-dev-server --content-base build",
-    "build": "webpack"
+    "dev": "BUILD_ENV=development webpack-dev-server --content-base build",
+    "build": "BUILD_ENV=production webpack"
   },
   "author": "Justin Mimbs <justin.mimbs@gmail.com>",
   "repository": {
