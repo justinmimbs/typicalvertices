@@ -2,7 +2,6 @@ import memoize from './memoize';
 import range from './range';
 import { internalAngle } from './polygonData';
 
-// ------------------------------------------------------------------------------------------------
 // array utilities
 
 // (Array, Array) -> Boolean
@@ -51,8 +50,9 @@ function reverse(array) {
   return array.slice().reverse();
 }
 
-// ------------------------------------------------------------------------------------------------
-// compositions of a number with a restricted set of summands
+/*-----------------------------------------------------------------------------------------------*/
+
+// find all compositions of a number with a restricted set of summands
 
 // ([Number], Number) -> [[Number]]
 const compositions = memoize((summands, n) => {
@@ -66,23 +66,21 @@ const compositions = memoize((summands, n) => {
     : comps;
 });
 
-// ------------------------------------------------------------------------------------------------
-// canonical permutation of a cycle
+// return a consistent ordering for any permutation of a cycle
 
 // [a] -> [a]
 function canonicalPermutation(cycle) {
   // include all rotations
-  let permutations = [...range(0, cycle.length)]
+  const rotations = [...range(0, cycle.length)]
     .map(i => [...cycle.slice(i), ...cycle.slice(0, i)]);
 
   // include the mirror of each rotation
-  permutations = [...permutations, ...permutations.map(reverse)];
+  const permutations = [...rotations, ...rotations.map(reverse)];
 
   // take the last permutation of the sorted order as the canonical representation
   return permutations.sort(arrayComparator)[permutations.length - 1];
 }
 
-// ------------------------------------------------------------------------------------------------
 // compute typical vertices
 
 const faces = [...range(3, 43)];
