@@ -83,17 +83,17 @@ function canonicalPermutation(cycle) {
 
 // compute typical vertices
 
-const faces = [...range(3, 43)];
-const angles = faces.map(internalAngle);
+const sides = [...range(3, 43)];
+const angles = sides.map(internalAngle);
 const circle = 360;
 
-const angleToFaces = new Map(zip(angles, faces));
+const sidesFromAngle = new Map(zip(angles, sides));
 
 const sorted = compositions(angles, circle)
     .map(canonicalPermutation)
     .sort(arrayComparator);
 
 const typicalVertices = sortedUniqueWith(equalArrays, sorted)
-    .map(path => path.map(angle => angleToFaces.get(angle)));
+    .map(path => path.map(angle => sidesFromAngle.get(angle)));
 
 export default typicalVertices;
