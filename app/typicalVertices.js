@@ -56,9 +56,9 @@ function reverse(array) {
 
 // ([Number], Number) -> [[Number]]
 const compositions = memoize((summands, n) => {
-  const min = Math.min(...summands);
+  const maxDifference = n - Math.min(...summands);
   const comps = summands
-    .filter(s => s <= (n - min))
+    .filter(s => s <= maxDifference)
     .map(s => compositions(summands, n - s).map(c => [s, ...c]))
     .reduce((r, x) => r.concat(x), []); // flatten
   return summands.includes(n)
@@ -85,15 +85,13 @@ function canonicalPermutation(cycle) {
 
 const sides = [...range(3, 43)];
 const angles = sides.map(internalAngle);
-const circle = 360;
-
 const sidesFromAngle = new Map(zip(angles, sides));
 
-const sorted = compositions(angles, circle)
-    .map(canonicalPermutation)
-    .sort(arrayComparator);
-
-const typicalVertices = sortedUniqueWith(equalArrays, sorted)
-    .map(path => path.map(angle => sidesFromAngle.get(angle)));
+const typicalVertices = sortedUniqueWith(equalArrays,
+    compositions(angles, 360)
+      .map(canonicalPermutation)
+      .sort(arrayComparator)
+  )
+  .map(path => path.map(angle => sidesFromAngle.get(angle)));
 
 export default typicalVertices;
